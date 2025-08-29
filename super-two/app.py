@@ -11,6 +11,7 @@ from decimal import Decimal
 from dotenv import load_dotenv
 from twilio.rest import Client
 import os, random
+from .models import db, Product
 from datetime import datetime, timedelta
 
 
@@ -487,27 +488,63 @@ def uploaded_file(filename):
   # make sure you have Product model imported
 
 # --- New API route ---
-@app.route("/api/products/<category>")
+@app.route("/api/products", methods=["GET"])
+def get_all_products():
+    try:
+        products = Product.query.all()
+        return jsonify([
+            {
+                "id": p.id,
+                "name": p.name,
+                "category": p.category,
+                "subcategory": p.subcategory,
+                "price": float(p.price),   # ✅ Decimal -> float
+                "stock": p.stock,
+                "unit": p.unit,
+                "image_url": p.image_url,
+                "created_at": p.created_at.isoformat()
+            }
+            for p in products
+        ])
+    except Exception as e:
+        print("❌ ERROR:", e)
+        return jsonify({"error": "Server error"}), 500
+
+
+# -------------------------
+# Get products by category (with optional subcategory filter)
+# -------------------------
+@app.route("/api/products/<string:category>", methods=["GET"])
 def get_products_by_category(category):
-    subcategory = request.args.get("subcategory")  # ✅ new
-    query = Product.query.filter_by(category=category)
+    try:
+        subcategory = request.args.get("subcategory")  # ✅ optional filter
+        query = Product.query.filter_by(category=category)
 
-    if subcategory:  # ✅ filter when subcategory is passed
-        query = query.filter_by(subcategory=subcategory)
+        if subcategory:
+            query = query.filter_by(subcategory=subcategory)
 
-    products = query.all()
-    data = []
-    for p in products:
-        data.append({
-            "id": p.id,
-            "name": p.name,
-            "price": float(p.price),   # ✅ convert Decimal to float for JSON
-            "stock": p.stock,
-            "unit": p.unit,
-            "image_url": p.image_url,
-            "subcategory": p.subcategory
-        })
-    return jsonify(data)
+        products = query.all()
+
+        if not products:
+            return jsonify({"message": f"No products found in category '{category}'"}), 404
+
+        return jsonify([
+            {
+                "id": p.id,
+                "name": p.name,
+                "category": p.category,
+                "subcategory": p.subcategory,
+                "price": float(p.price),
+                "stock": p.stock,
+                "unit": p.unit,
+                "image_url": p.image_url,
+                "created_at": p.created_at.isoformat()
+            }
+            for p in products
+        ])
+    except Exception as e:
+        print("❌ ERROR:", e)
+        return jsonify({"error": "Server error"}), 500
 
 
 # =====================================================
@@ -686,6 +723,7 @@ def api_order_verify_delivery():
 # =====================================================
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
