@@ -1,21 +1,21 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, abort,session, current_app
-from .models import db, bcrypt
-
+from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, abort, session, current_app, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import (
     LoginManager, login_required, current_user,
     login_user, logout_user, UserMixin
 )
-from decimal import Decimal
-from .models import db, Admin, Product, Address, Order, OrderOTP, OTP
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-import os
-from flask import jsonify
-import random
-from datetime import datetime, timedelta
+from decimal import Decimal
 from dotenv import load_dotenv
+from twilio.rest import Client
+import os, random
+from datetime import datetime, timedelta
+
+# =====================================================
+# Load env
+# =====================================================
 load_dotenv()
 
 # Config
@@ -24,12 +24,19 @@ ALLOWED_EXT = {'png','jpg','jpeg','gif','webp'}
 
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET', 'dev_secret_for_local')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:manha%4004@localhost:5432/supermarket')
+
+# --- Fix DATABASE_URL for Render ---
+uri = os.getenv('DATABASE_URL', 'postgresql://postgres:password@localhost:5432/supermarket')
+if uri.startswith("postgres://"):   # Render gives old scheme
+    uri = uri.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Init extensions
+from .models import db, bcrypt, Admin, Product, Address, Order, OrderOTP, OTP
 db.init_app(app)
 bcrypt.init_app(app)
 
@@ -40,14 +47,26 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "home"
 
+# =====================================================
+# TWILIO CONFIG FROM ENV
+# =====================================================
+TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_WHATSAPP_FROM = os.getenv("TWILIO_WHATSAPP_FROM", "whatsapp:+14155238886")
+OTP_EXPIRY_MINUTES = int(os.getenv("OTP_EXPIRY_MINUTES", "60")) 
+MAX_OTP_TRIES = int(os.getenv("MAX_OTP_TRIES", "5"))
 
+twilio_client = None
+if TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN:
+    twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+else:
+    app.logger.warning("⚠️ Twilio credentials not set. WhatsApp OTP will not work.")
 
 # =====================================================
-# MODELS
+# USER MODEL
 # =====================================================
-
 class User(db.Model, UserMixin):
-    __tablename__ = 'user'   # ✅ fixed double underscore
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.String(100))
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -62,13 +81,47 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
-    
-# =====================================================
-# LOGIN MANAGER
-# =====================================================
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+# =====================================================
+# HELPERS
+# =====================================================
+def _gen_otp(digits=6):
+    return ''.join(random.choices("0123456789", k=digits))
+
+DEFAULT_COUNTRY_CODE = "+91"  # adjust if needed
+
+def _format_whatsapp_number(phone_raw):
+    if not phone_raw:
+        return None
+    s = ''.join(ch for ch in phone_raw if ch.isdigit() or ch == '+')
+    if len(s) == 10:
+        return f"whatsapp:{DEFAULT_COUNTRY_CODE}{s}"
+    if s.startswith("91") and len(s) == 12:
+        return f"whatsapp:+{s}"
+    if s.startswith("+"):
+        return f"whatsapp:{s}"
+    return f"whatsapp:{DEFAULT_COUNTRY_CODE}{s}"
+
+def _send_whatsapp_message(to_number, body):
+    if not twilio_client:
+        current_app.logger.error("Twilio not configured. Skipping WhatsApp send.")
+        return False
+    to_whatsapp = _format_whatsapp_number(to_number)
+    try:
+        msg = twilio_client.messages.create(
+            from_=TWILIO_WHATSAPP_FROM,
+            to=to_whatsapp,
+            body=body
+        )
+        current_app.logger.info(f"Twilio Message SID: {msg.sid}")
+        return True
+    except Exception as e:
+        current_app.logger.error(f"Twilio send failed: {e}")
+        return False
 
 # =====================================================
 # ROUTES
@@ -631,5 +684,6 @@ def api_order_verify_delivery():
 # =====================================================
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
