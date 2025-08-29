@@ -12,6 +12,12 @@ from dotenv import load_dotenv
 from twilio.rest import Client
 import os, random
 from datetime import datetime, timedelta
+from models import db  # adjust import if needed
+from app import app    # or wherever your Flask app instance is
+
+with app.app_context():
+    db.create_all()
+
 
 # =====================================================
 # Load env
@@ -684,6 +690,7 @@ def api_order_verify_delivery():
 # =====================================================
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
