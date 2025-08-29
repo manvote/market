@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, abort,session, current_app
-from models import db, bcrypt
+from .models import db, bcrypt
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import (
@@ -630,3 +631,4 @@ def api_order_verify_delivery():
 # =====================================================
 if __name__ == '__main__':
     app.run(debug=True)
+
