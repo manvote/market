@@ -9,16 +9,19 @@ bcrypt = Bcrypt()
 # -------------------------
 # User Model (customers)
 # -------------------------
+# -------------------------
+# User Model (customers)
+# -------------------------
 class User(UserMixin, db.Model):
-    __tablename__ = "users"   # ✅ not "user", safer for SQLAlchemy/Postgres
+    __tablename__ = "users"   # ✅ safer for Postgres
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
     # Relationships
-    addresses = db.relationship("Address", backref="user", lazy=True)
-    orders = db.relationship("Order", backref="user", lazy=True)
+    addresses = db.relationship("Address", back_populates="user", lazy=True)
+    orders = db.relationship("Order", back_populates="user", lazy=True)
 
 
 # -------------------------
@@ -31,6 +34,8 @@ class Address(db.Model):
     city = db.Column(db.String(100))
     pincode = db.Column(db.String(10))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)  # ✅ fixed FK
+
+    user = db.relationship("User", back_populates="addresses")  # ✅ fixed
 
 
 # -------------------------
@@ -48,9 +53,12 @@ class Order(db.Model):
     delivery = db.Column(db.Float, nullable=False, default=0.0)
     total = db.Column(db.Float, nullable=False, default=0.0)
     payment_mode = db.Column(db.String(32), nullable=False, default="COD")
-    status = db.Column(db.String(32), nullable=False, default="pending")  # pending, out_for_delivery, delivered, cancelled
+    status = db.Column(db.String(32), nullable=False, default="pending")  
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    user = db.relationship("User", back_populates="orders")  # ✅ fixed
+
 
 
 # -------------------------
@@ -105,3 +113,4 @@ class Product(db.Model):
     unit = db.Column(db.String(20))   # e.g. kg, L, pcs
     image_url = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
