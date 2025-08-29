@@ -1,4 +1,4 @@
-from app import db, app
+from .app import db, app
 from sqlalchemy import text
 
 with app.app_context():
@@ -10,4 +10,5 @@ with app.app_context():
 
     # Recreate tables
     db.create_all()
+
     print("✅ Database reset with CASCADE: All tables dropped and recreated.")
