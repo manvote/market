@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>M mart — 10km Supermarket</title>
+  <link rel="stylesheet" href="static/index.css"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- 🌟 Favicon Icon for Taskbar/Browser Tab -->
+  <link rel="icon" href="assets/logo.png" type="png" />
+
+  <!-- Optional: Apple Icon and Other Support -->
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+</head>
+<body>
+  <!-- Sticky Topbar -->
+  <header class="nav">
+    <div class="nav__left">
+    <!-- Removed the X / Menu button -->
+<a class="brand" href="index.html">
+  <img src="assets/logo.png" alt="M Mart Logo" class="nav-logo">
+</a>
+
+<span class="chip chip--accent">Delivering within 10 km</span>
+
+    </div>
+    <div class="nav__center">
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M9.5 3A6.5 6.5 0 1 1 3 9.5A6.5 6.5 0 0 1 9.5 3m8.79 14.71L20 19.5L18.5 21l-1.71-1.71z"/></svg>
+        <input id="searchInput" type="search" placeholder="Search groceries, fruits, snacks…"/>
+      </div>
+    </div>
+    <div class="nav__right">
+      
+      <button id="cartBtn" class="cart-btn" aria-haspopup="dialog">
+        <svg width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M7 18a2 2 0 1 0 0 4a2 2 0 0 0 0-4m10 0a2 2 0 1 0 0 4a2 2 0 0 0 0-4M7 16h10a1 1 0 0 0 .96-.73L21 6H6.21l-.94-3H2v2h1.38l3.3 10.59A2 2 0 0 0 7 16Z"/></svg>
+        <span>Cart</span><b id="cartCount" class="badge">0</b>
+      </button>
+    <!-- Account/Login -->
+  {% if current_user.is_authenticated %}
+    <!-- Show account icon if logged in -->
+    <a href="{{ url_for('dashboard') }}" id="accountIcon">
+      <img src="assets/account-logo.png" 
+           alt="Account" class="account-icon"/>
+    </a>
+  {% else %}
+    <!-- Show login button if not logged in -->
+    <button id="openAuth" class="btn btn--primary">Login</button>
+  {% endif %} 
+  <a href="/contact" class="contact-btn">Contact</a>
+    </div>
+  </header>
+
+  <!-- Side Drawer (mobile menu) -->
+  <aside id="sideMenu" class="drawer" aria-hidden="true">
+    <nav class="drawer__content">
+      <h3>Browse</h3>
+      <a href="#popular">Popular</a>
+      <a href="#fruits">Fruits</a>
+      <a href="#veggies">Vegetables</a>
+      <a href="#dairy">Dairy</a>
+      <a href="#snacks">Snacks</a>
+      <a href="/products">All products →</a>
+    </nav>
+  </aside>
+
+  <!-- LEFT Cart Panel -->
+  <div id="panelBackdrop" class="backdrop" hidden></div>
+  <aside id="cartPanel" class="panel panel--left" role="dialog" aria-modal="true" aria-hidden="true">
+  <header class="panel__head">
+    <button class="icon-btn" data-close-panel>&times;</button>
+    <b>Your Cart</b>
+  </header>
+
+    <div id="panelItems" class="panel__items"></div>
+    <footer class="panel__foot">
+      <div class="cart__row"><span>Subtotal</span><strong id="panelSubtotal">₹0</strong></div>
+      <div class="cart__row"><span>Delivery (≤10 km)</span><strong id="panelDelivery">₹0</strong></div>
+      <div class="cart__row cart__row--total"><span>Total</span><strong id="panelTotal">₹0</strong></div>
+      <a id="checkoutBtn" class="btn btn--primary btn--block" href="/payment">Continue to checkout</a>
+    </footer>
+  </aside>
+
+
+  <div id="homeContent">
+  <!-- Hero (multi-slide) -->
+  <section class="hero">
+    <div id="heroSlides" class="hero__slides">
+      <article class="hero__slide" style="--bg:url('/assets/banner.jpg')">
+        <div class="hero__copy">
+          <h1>Groceries in <span class="accent">minutes</span></h1>
+          <p>10 km delivery radius • 24×7</p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#popular">Shop Popular</a>
+            
+          </div>
+        </div>
+      </article>
+      <article class="hero__slide" style="--bg:url('/assets/banner-1.jpg')">
+        <div class="hero__copy">
+          <h1>Seasonal <span class="accent">fruits</span></h1>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#popular">Shop Popular</a>
+            
+          </div>
+        </div>
+      </article>
+      <article class="hero__slide" style="--bg:url('/assets/banner-2.jpg')">
+        <div class="hero__copy">
+          <h1>Crisp green <span class="accent">veggies</span></h1>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#popular">Shop Popular</a>
+            
+          </div>
+        </div>
+      </article>
+    </div>
+    <div id="heroDots" class="hero__dots"></div>
+  </section>
+
+  <!-- Category pills -->
+  <section class="categories reveal">
+    <a class="cat" href="#fruits"><img src="assets/fruits.jpg" alt=""><span>Fruits & Vegetables</span></a>
+    <a class="cat" href="#dairy"><img src="assets/dairy.jpg" alt=""><span>Dairy</span></a>
+    <a class="cat" href="#snacks"><img src="assets/chips.jpg" alt=""><span>Snacks & Biscuits</span></a>
+    <a class="cat" href="#toys"><img src="assets/toys.jpg" alt=""><span>Toys</span></a>
+    <a class="cat" href="#personal"><img src="assets/personal.jpg" alt=""><span>Personal Care</span></a>
+    <a class="cat" href="#household"><img src="assets/household.jpg" alt=""><span>Household Essential</span></a>
+    <a class="cat" href="#masala"><img src="assets/masala.jpg" alt=""><span>Masala & Dry Fruits</span></a>
+    <a class="cat" href="#frozen"><img src="assets/frozen.jpg" alt=""><span>Frozen Food</span></a>
+    <a class="cat" href="#fragrance"><img src="assets/fraganaces.jpg" alt=""><span>Fragrances</span></a>
+    <a class="cat" href="#stationary "><img src="assets/stationeries.jpg" alt=""><span>Stationeries</span></a>
+  </section>
+
+  <!-- Offer banner with countdown -->
+  <section id="offers" class="offer reveal">
+    <div class="offer__left">
+      <h3 class="offer__title">Monsoon Mega Saver</h3>
+      <p>Use <strong>RAIN30</strong> on orders above ₹499 • first 3 orders get extra</p>
+      <div class="timer">
+        <span class="count" id="timerH">00</span><small>hrs</small>
+        <span class="count" id="timerM">00</span><small>min</small>
+        <span class="count" id="timerS">00</span><small>sec</small>
+      </div>
+    </div>
+    <img class="offer__img" src="assets/image.png" alt="Offer banner">
+  </section>
+
+  <!-- Horizontal product rails -->
+  <main>
+    
+
+    <section id="fruits" class="product-section reveal">
+      <header class="section-head">
+      </header>
+      <div id="grid" class="grid-api-fruits"> 
+      </div>
+    </section>
+
+    <section id="veggies" class="product-section reveal">
+      <header class="section-head">
+        <h2>Fruits and Vegetables</h2>
+        <div class="scroller-controls">
+          <button class="icon-btn sc-left">&#8249;</button>
+          <a class="btn btn--ghost only-desktop" href="/vegetable">View all</a>
+          <button class="icon-btn sc-right">&#8250;</button></div>
+      </header>
+      <div id="grid" class="grid-api-vegetable">
+        <section class="api-vegetable">
+          <div id="vegetable-container" class="products-grid5"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="dairy" class="product-section reveal">
+      <header class="section-head">
+        <h2>Dairy essentials</h2>
+        <div class="scroller-controls">
+           <button class="icon-btn sc-left">&#8249;</button>
+          <a class="btn btn--ghost only-desktop" href="/dairy">View all</a>
+          <button class="icon-btn sc-right">&#8250;</button></div>
+      </header>
+      <div id="grid" class="grid-api-dairy">
+        <section class="api-dairy">
+          <div id="dairy-container" class="products-grid3"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="snacks" class="product-section reveal">
+      <header class="section-head">
+        <h2>Anytime snacks</h2>
+        <div class="scroller-controls">
+           <button class="icon-btn sc-left">&#8249;</button>
+          <a class="btn btn--ghost only-desktop" href="/snacks">View all</a>
+          <button class="icon-btn sc-right">&#8250;</button>
+        </div>
+      </header>
+      <div id="grid" class="grid-api-snacks">
+        <section class="api-snacks">
+          <div id="snacks-container" class="products-grid9"></div>
+        </section>
+      </div>
+    </section>
+      <section id="toys" class="product-section reveal">
+      <header class="section-head">
+        <h2>Toys</h2>
+        <div class="scroller-controls"> <button class="icon-btn sc-left">&#8249;</button>
+          <a class="btn btn--ghost only-desktop" href="/toys">View all</a>
+          <button class="icon-btn sc-right">&#8250;</button></div>
+      </header>
+      <div id="grid" class="grid-api-toys">
+        <section class="api-toys">
+          <div id="toys-container" class="products-grid1"></div>
+        </section>
+      </div>
+    </section>
+    <section id="personal" class="product-section reveal">
+      <header class="section-head">
+        <h2>Personal Care</h2>
+        <div class="scroller-controls"> <button class="icon-btn sc-left">&#8249;</button>
+          <a class="btn btn--ghost only-desktop" href="/personal">View all</a>
+          <button class="icon-btn sc-right">&#8250;</button></div>
+      </header>
+      <div id="grid" class="grid-api-personal">
+        <section class="api-personal">
+          <div id="personal-container" class="products-grid2"></div>
+        </section>
+      </div>
+    </section>
+    <section id="household" class="product-section reveal">
+      <header class="section-head">
+        <h2>Household Essential</h2>
+        <div class="scroller-controls"> <button class="icon-btn sc-left">&#8249;</button>
+          <a class="btn btn--ghost only-desktop" href="/household">View all</a>
+          <button class="icon-btn sc-right">&#8250;</button></div>
+      </header>
+      <div id="grid" class="grid-api-household">
+        <section class="api-household">
+          <div id="household-container" class="products-grid7"></div>
+        </section>
+      </div>
+    </section>
+      <section id="masala" class="product-section reveal">
+      <header class="section-head">
+        <h2>Masala and Dry fruits</h2>
+        <div class="scroller-controls"> <button class="icon-btn sc-left">&#8249;</button>
+          <a class="btn btn--ghost only-desktop" href="/masaladry">View all</a>
+          <button class="icon-btn sc-right">&#8250;</button></div>
+      </header>
+      <div id="grid" class="grid-api-masaladry">
+        <section class="api-masaladry">
+          <div id="masaladry-container" class="products-grid6"></div>
+        </section>
+      </div>
+    </section>
+     <section id="frozen" class="product-section reveal">
+      <header class="section-head">
+        <h2>Frozen Food</h2>
+        <div class="scroller-controls"> <button class="icon-btn sc-left">&#8249;</button>
+          <a class="btn btn--ghost only-desktop" href="/frozen">View all</a>
+          <button class="icon-btn sc-right">&#8250;</button>></div>
+      </header>
+      <div id="grid" class="grid-api-frozen">
+        <section class="api-frozen">
+          <div id="frozen-container" class="products-grid6"></div>
+        </section>
+      </div>
+    </section>
+    <section id="fragrance" class="product-section reveal">
+      <header class="section-head">
+        <h2>Fragrances</h2>
+        <div class="scroller-controls"> <button class="icon-btn sc-left">&#8249;</button>
+          <a class="btn btn--ghost only-desktop" href="/fragrance">View all</a>
+          <button class="icon-btn sc-right">&#8250;</button></div>
+      </header>
+      <div id="grid" class="grid-api-fragrance">
+        <section class="api-fragrance">
+          <div id="fragrance-container" class="products-grid4"></div>
+        </section>
+      </div>
+    </section>
+    <section id="stationary" class="product-section reveal">
+      <header class="section-head">
+        <h2>Stationaries</h2>
+        <div class="scroller-controls"> <button class="icon-btn sc-left">&#8249;</button>
+          <a class="btn btn--ghost only-desktop" href="/stationary">View all</a>
+          <button class="icon-btn sc-right">&#8250;</button></div>
+      </header>
+      <div id="grid" class="grid-api-stationary">
+        <section class="api-stationary">
+          <div id="stationary-container" class="products-grid10"></div>
+        </section>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- Why Customers Love Us -->
+  <section class="why-us-section">
+    <h2>Why Customers Love Us ❤️</h2>
+    <div class="why-us-grid">
+      <div class="why-us-card">
+        <img src="assets/fast.jpeg" alt="Fast Delivery">
+        <h3>Superfast Delivery</h3>
+        <p>Groceries at your doorstep in 10 minutes.</p>
+      </div>
+      <div class="why-us-card">
+        <img src="assets/fresh-&-clean.jpg" alt="Fresh">
+        <h3>Fresh & Clean</h3>
+        <p>Only the best quality products, always.</p>
+      </div>
+      <div class="why-us-card">
+        <img src="assets/unbeatable-price.jpg" alt="Best Prices">
+        <h3>Unbeatable Prices</h3>
+        <p>Daily discounts and exclusive offers.</p>
+      </div>
+      <div class="why-us-card">
+        <img src="assets/support.jpeg" alt="Support">
+        <h3>24/7 Support</h3>
+        <p>We’re here to help you anytime.</p>
+      </div>
+    </div>
+  </section>
+  
+
+<!-- How It Works Section -->
+<section class="how-it-works">
+  <h2>How It Works 🚀</h2>
+  
+  <div class="steps-line">
+    <div class="step">
+      <div class="icon">📱</div>
+      <h3>Open Website</h3>
+      <p>Browse 7000+ groceries, fruits, veggies & daily needs.</p>
+    </div>
+    <div class="arrow">➝</div>
+    
+    <div class="step">
+      <div class="icon">🛒</div>
+      <h3>Add to Cart</h3>
+      <p>Select your favorite products with exclusive offers.</p>
+    </div>
+    <div class="arrow">➝</div>
+    
+    <div class="step">
+      <div class="icon">💳</div>
+      <h3>Checkout</h3>
+      <p>Pay instantly via UPI, cards or COD – quick & secure.</p>
+    </div>
+    <div class="arrow">➝</div>
+    
+    <div class="step">
+      <div class="icon">🚚</div>
+      <h3>Superfast Delivery</h3>
+      <p>Get your order delivered in 10 minutes, always fresh!</p>
+    </div>
+  </div>
+</section>
+
+
+</div>
+
+<!-- add this empty search results container -->
+<div id="searchResults" style="display:none;"></div>
+
+  <!-- Footer -->
+ <footer class="zepto-footer">
+  <div class="footer-container">
+    
+    <!-- Logo + Description -->
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="Logo" class="footer-logo">
+      <p>Delivering groceries, fruits & vegetables in under 10 minutes within your city.</p>
+      
+    </div>
+
+    <!-- Categories -->
+    <div class="footer-links">
+      <h4>Categories</h4>
+      <ul>
+        <li><a href="#">Grocery</a></li>
+        <li><a href="#vegetable">Fruits & Vegetables</a></li>
+        <li><a href="#dairy">Dairy & Bakery</a></li>
+        <li><a href="#snacks">Snacks & Beverages</a></li>
+        <li><a href="#personal">Personal Care</a></li>
+        <li><a href="#household">Household Items</a></li>
+      </ul>
+    </div>
+
+    <!-- Company Info -->
+    <div class="footer-links">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/careers">Careers</a></li>
+        <li><a href="/help">Help & Support</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms & Conditions</a></li>
+      </ul>
+    </div>
+
+    <!-- Cities -->
+    <div class="footer-links">
+      <h4>Cities We Serve</h4>
+      <div class="footer-cities">
+        <span>Chennai</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 M Mart. All rights reserved.</p>
+  </div>
+</footer>
+<!-- 🔑 Auth Modal -->
+<div id="authModal" class="auth-modal">
+  <div class="auth-content">
+    <button id="closeAuth" class="close-btn">&times;</button>
+
+    <!-- Login Form -->
+<form id="loginForm" class="form active" method="POST" action="/login">
+  <h2>Login</h2>
+  <input type="email" name="email" placeholder="Email" required>
+  <input type="password" name="password" placeholder="Password" required>
+  <button type="submit" class="btn btn--primary">Login</button>
+  <p>Don’t have an account? <a href="#" id="showSignup">Sign up</a></p>
+</form>
+
+<!-- Signup Form -->
+<form id="signupForm" class="form" method="POST" action="/signup">
+  <h2>Sign Up</h2>
+  <input type="text" name="name" placeholder="Full Name" required>
+  <input type="email" name="email" placeholder="Email" required>
+  <input type="tel" name="phone" placeholder="Phone Number" required>
+  <input type="password" name="password" placeholder="Password" required>
+  <button type="submit" class="btn btn--primary">Sign Up</button>
+  <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+</form>
+
+
+  </div>
+</div>
+  <script src="static/index.js"></script>
+  <script src="static/vegetable-fetch.js"></script>
+  <script src="static/snacks-fetch.js"></script>
+  <script src="static/personal-fetch.js"></script>
+  <script src="static/household-fetch.js"></script>
+  <script src="static/masaladry-fetch.js"></script>
+  <script src="static/frozen-fetch.js"></script>
+  <script src="static/stationary-fetch.js"></script>
+ <script src="static/toys-fetch.js"></script>
+ <script src="static/dairy-fetch.js"></script>
+ <script src="static/fragrance-fetch.js"></script>
+</body>
+</html>

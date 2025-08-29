@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms & Conditions - M Mart</title>
+  <!-- 🌟 Favicon Icon for Taskbar/Browser Tab -->
+  <link rel="icon" href="assets/logo.png" type="png" />
+
+  <!-- Optional: Apple Icon and Other Support -->
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+  <style>
+    :root {
+      --blue: #6ec1e4;
+      --green: #81c784;
+      --bg: #f9fdfc;
+      --text: #2c3e50;
+      --muted: #555;
+      --card-bg: #fff;
+      --shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Hero Header */
+    .hero {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: #fff;
+      padding: 60px 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .hero h1 {
+      font-size: 32px;
+      margin: 0;
+    }
+    .hero p {
+      margin-top: 10px;
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    /* Sticky Nav */
+    nav {
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      border-bottom: 1px solid #eee;
+    }
+    nav a {
+      padding: 15px 20px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: var(--blue);
+    }
+
+    /* Terms Container */
+    .terms-container {
+      max-width: 950px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section-card {
+      background: var(--card-bg);
+      margin: 25px 0;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .section-card h2 {
+      color: var(--green);
+      font-size: 20px;
+      margin-top: 0;
+    }
+
+    .section-number {
+      background: var(--blue);
+      color: #fff;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      float: left;
+      margin-right: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .section-card p {
+      color: var(--muted);
+      font-size: 15px;
+      margin-top: 10px;
+      clear: both;
+    }
+
+    footer {
+      background: var(--green);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      box-shadow: var(--shadow);
+    }
+
+    footer a {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 24px; }
+      nav a { padding: 10px; font-size: 14px; }
+      .section-card { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>Terms & Conditions</h1>
+    <p>Clear guidelines for using M Mart services</p>
+  </header>
+
+  <nav>
+    <a href="#acceptance">Acceptance</a>
+    <a href="#services">Services</a>
+    <a href="#orders">Orders</a>
+    <a href="#delivery">Delivery</a>
+    <a href="#returns">Returns</a>
+    <a href="#liability">Liability</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <main class="terms-container">
+    <div class="section-card" id="acceptance">
+      <div class="section-number">1</div>
+      <h2>Acceptance of Terms</h2>
+      <p>By using our website, you agree to these Terms & Conditions. If you disagree, please do not use our services.</p>
+    </div>
+
+    <div class="section-card" id="services">
+      <div class="section-number">2</div>
+      <h2>Use of Services</h2>
+      <p>You must be at least 18 years old, or have parental consent, to use our platform. All registration details must be accurate.</p>
+    </div>
+
+    <div class="section-card" id="orders">
+      <div class="section-number">3</div>
+      <h2>Orders & Payments</h2>
+      <p>Orders are confirmed upon successful payment. Prices and availability are subject to change without notice.</p>
+    </div>
+
+    <div class="section-card" id="delivery">
+      <div class="section-number">4</div>
+      <h2>Delivery</h2>
+      <p>We deliver within a 10km radius. Delivery times may vary due to traffic, weather, or stock availability.</p>
+    </div>
+
+    <div class="section-card" id="returns">
+      <div class="section-number">5</div>
+      <h2>Returns & Refunds</h2>
+      <p>Perishable goods cannot be returned. For other products, please check our return policy or contact support within 24 hours.</p>
+    </div>
+
+    <div class="section-card" id="liability">
+      <div class="section-number">6</div>
+      <h2>Limitation of Liability</h2>
+      <p>M Mart is not responsible for losses due to misuse, delays, or circumstances beyond our control.</p>
+    </div>
+
+    <div class="section-card" id="contact">
+      <div class="section-number">7</div>
+      <h2>Contact Us</h2>
+      <p>Questions? Reach us at <strong>support@mmart.com</strong>.</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 M Mart | 
+      <a href="/privacy">Privacy Policy</a> | 
+      <a href="/help">Help & Support</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Careers — M Mart</title>
+<!-- 🌟 Favicon Icon for Taskbar/Browser Tab -->
+  <link rel="icon" href="assets/logo.png" type="png" />
+
+  <!-- Optional: Apple Icon and Other Support -->
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+
+<!-- 🌟 Favicon Icon for Taskbar/Browser Tab -->
+<link rel="icon" href="assets/logo.png" type="png" />
+<link rel="apple-touch-icon" href="assets/logo.png" />
+<meta name="description" content="Join M Mart: a fast-growing hyperlocal supermarket delivering within 10 km. Explore roles in delivery, operations, CX, growth and tech.">
+
+<style>
+  :root{
+    /* Same pastel system as your policy page */
+    --blue:#4fc3f7;
+    --green:#81c784;
+    --bg:#e0f7fa;
+    --surface:#ffffff;
+    --text:#1b3a4b;
+    --muted:#546e7a;
+    --stroke:#cfd8dc;
+    --shadow:0 20px 45px -15px rgba(0,0,0,.12);
+    --radius:14px;
+    --accent:#ffd166;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    background:linear-gradient(180deg, #e8fbff, var(--bg) 20%, #e9fff3 100%);
+    color:var(--text);
+  }
+
+  /* Header */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:linear-gradient(90deg, var(--green), var(--blue));
+    padding:16px 18px; color:#001b24; box-shadow:var(--shadow);
+  }
+  .topbar{display:flex; gap:12px; align-items:center; justify-content:space-between; max-width:1100px; margin:0 auto}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; text-decoration:none; color:#003442}
+  .dot{width:12px; height:12px; border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--green)); box-shadow:0 0 12px rgba(79,195,247,.7)}
+  .actions{display:flex; gap:8px; align-items:center}
+  .btn{display:inline-flex; align-items:center; gap:.5rem; padding:.6rem .9rem; border-radius:12px; border:1px solid rgba(0,0,0,.08); background:#fff; color:#003442; text-decoration:none; font-weight:700; box-shadow:var(--shadow); cursor:pointer}
+  .btn--ghost{background:transparent; color:#003442; border-color:rgba(0,0,0,.15)}
+  .btn:focus-visible{outline:3px solid rgba(0,0,0,.2)}
+
+  /* Layout */
+  main{max-width:1100px; margin:24px auto; padding:0 16px; display:grid; grid-template-columns:280px 1fr; gap:18px}
+  .toc{position:sticky; top:82px; height:fit-content; background:var(--surface); border:1px solid var(--stroke); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px}
+  .toc h3{margin:.2rem 0 .6rem; font-size:1rem; color:#0e3947}
+  .toc ul{list-style:none; padding:0; margin:0; display:grid; gap:.35rem}
+  .toc a{color:#0c3a4a; text-decoration:none; padding:.35rem .4rem; border-radius:8px; display:block}
+  .toc a:hover, .toc a.active{background:#e6fbff}
+
+  .card{background:var(--surface); border:1px solid var(--stroke); border-radius:var(--radius); box-shadow:var(--shadow); padding:22px}
+  .head{display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; margin-bottom:6px}
+  h1{font-size:1.7rem; margin:.2rem 0; color:#0c5166}
+  .meta{color:var(--muted); font-size:.95rem}
+  h2{font-size:1.2rem; margin:1.2rem 0 .4rem; color:#0f6b86}
+  p,li{color:var(--muted); line-height:1.7}
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+  .well{background:#f5feff; border:1px dashed var(--stroke); border-radius:12px; padding:14px}
+  .pill{display:inline-block; background:#f0fbff; border:1px solid var(--stroke); padding:.1rem .5rem; border-radius:999px; font-size:.85rem; font-weight:700; color:#0e3947}
+  .stat{display:flex; align-items:center; gap:10px; padding:12px; background:#fffdf6; border:1px solid var(--stroke); border-radius:12px}
+  .chip{display:inline-grid; place-items:center; min-width:22px; height:22px; padding:0 6px; border-radius:999px; background:var(--green); color:#043317; font-size:.75rem; font-weight:800}
+  .kbd{display:inline-block; background:#f0fbff; border:1px solid var(--stroke); padding:.1rem .4rem; border-radius:6px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9rem}
+
+  /* Roles */
+  .toolbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:.6rem 0 1rem}
+  .input, select{
+    background:#fff; border:1px solid var(--stroke); border-radius:10px; padding:.55rem .7rem; min-width:200px; box-shadow:var(--shadow)
+  }
+  .role{background:#ffffff; border:1px solid var(--stroke); border-radius:12px; padding:16px; display:grid; grid-template-columns:1fr auto; gap:12px; align-items:start; transition:transform .2s ease, box-shadow .2s ease}
+  .role:hover{transform:translateY(-4px); box-shadow:0 20px 35px -20px rgba(0,0,0,.18)}
+  .role h3{margin:.2rem 0; color:#0f6b86}
+  .meta-row{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+  .role .actions{display:flex; gap:8px}
+  .role .btn{padding:.45rem .75rem; border-radius:10px}
+  .saved{background:#e6fbff}
+
+  /* Timeline */
+  .timeline{display:grid; gap:10px}
+  .step{display:grid; grid-template-columns:28px 1fr; gap:12px; align-items:flex-start}
+  .dot-ghost{width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--green)); box-shadow:0 0 0 4px rgba(79,195,247,.15)}
+  .line{height:14px}
+
+  /* Modal */
+  .modal{position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; place-items:center; padding:16px}
+  .modal.open{display:grid}
+  .modal-card{background:#fff; width:min(720px,95vw); border-radius:16px; box-shadow:var(--shadow); border:1px solid var(--stroke); overflow:hidden}
+  .modal-head{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; background:linear-gradient(90deg,#fafffe,#f3feff)}
+  .modal-body{padding:16px}
+  .modal h3{margin:0; color:#0f6b86}
+  .close-x{background:transparent; border:none; font-size:22px; cursor:pointer}
+
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .form-row .input, textarea, input[type="file"]{width:100%}
+  textarea{min-height:120px; resize:vertical; background:#fff; border:1px solid var(--stroke); border-radius:10px; padding:.6rem .7rem; box-shadow:var(--shadow)}
+  .note{font-size:.85rem; color:var(--muted)}
+  .foot{margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end}
+
+  footer{margin:24px auto 40px; max-width:1100px; padding:0 16px; color:#335;}
+
+  @media (max-width: 960px){ main{grid-template-columns:1fr} .toc{position:relative; top:auto} .form-row{grid-template-columns:1fr} .grid-3{grid-template-columns:1fr 1fr}}
+  @media (max-width: 640px){ .grid-3{grid-template-columns:1fr} h1{font-size:1.45rem}}
+</style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <a class="brand" href="/"><span class="dot"></span>M Mart</a>
+      <div class="actions">
+        <button id="printBtn" class="btn btn--ghost" aria-label="Print / Save PDF">🖨 Print / Save</button>
+        <a class="btn" href="/help" aria-label="Help & Support">❓ Help</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- TOC -->
+    <nav class="toc" aria-label="On this page">
+      <h3>Careers</h3>
+      <ul id="tocList">
+        <li><a href="#intro" class="active">Introduction</a></li>
+        <li><a href="#about">About M Mart</a></li>
+        <li><a href="#life">Life @ M Mart</a></li>
+        <li><a href="#values">Values</a></li>
+        <li><a href="#benefits">Benefits</a></li>
+        <li><a href="#roles">Open Roles</a></li>
+        <li><a href="#process">Hiring Process</a></li>
+        <li><a href="#faqs">FAQs</a></li>
+        <li><a href="#contact">Contact HR</a></li>
+      </ul>
+    </nav>
+
+    <!-- Content -->
+    <article class="card">
+      <div class="head">
+        <h1>Build Your Career with M Mart</h1>
+        <div class="meta">Hyperlocal within 10 km • Bengaluru • Updated <span id="updated"></span></div>
+      </div>
+
+      <!-- Intro / Hero -->
+      <section id="intro">
+        <div class="grid-2">
+          <div class="well">
+            <p><strong>M Mart</strong> is a fast-growing, hyperlocal supermarket delivering essentials within a strict <strong>10 km radius</strong>. Small team. Big impact. If you love speed, ownership and delighting customers, you’ll feel right at home here.</p>
+            <p><span class="pill">Fast Delivery</span> <span class="pill">Customer Obsession</span> <span class="pill">Ownership</span></p>
+          </div>
+          <div class="stat">
+            <span class="chip">10km</span>
+            <div>
+              <strong>Hyperlocal by design</strong>
+              <div class="note">We serve neighborhoods deeply — fresher inventory, faster routes, happier customers.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about">
+        <h2>About M Mart</h2>
+        <p>We operate micro-fulfillment hubs optimized for urban density. Our promise: <em>quality groceries at your door in minutes, not days</em> — as long as you’re within 10 km of a hub. We’re pragmatic, data-informed, and relentlessly focused on customer trust.</p>
+        <div class="well">
+          <strong>Teams:</strong> Delivery • Operations • Customer Experience • Growth • Technology
+        </div>
+      </section>
+
+      <!-- Life -->
+      <section id="life">
+        <h2>Life @ M Mart</h2>
+        <div class="grid-3">
+          <div class="well">
+            <strong>Real Ownership</strong>
+            <p>Ship ideas weekly. Measure impact daily. No heavy bureaucracy.</p>
+          </div>
+          <div class="well">
+            <strong>Learning Budget</strong>
+            <p>Annual allowance for courses, books, and certifications.</p>
+          </div>
+          <div class="well">
+            <strong>Hybrid & Field</strong>
+            <p>Ops on-ground, Support hybrid, Tech flexible.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Values -->
+      <section id="values">
+        <h2>Our Values</h2>
+        <ul>
+          <li><strong>Customer First:</strong> Every decision starts with the shopper’s benefit.</li>
+          <li><strong>Bias for Action:</strong> Move with speed. Perfect is the enemy of shipped.</li>
+          <li><strong>Frugality with Quality:</strong> Do more with less, never compromise freshness.</li>
+          <li><strong>Integrity:</strong> We do the right thing — even when nobody’s watching.</li>
+        </ul>
+      </section>
+
+      <!-- Benefits -->
+      <section id="benefits">
+        <h2>Benefits</h2>
+        <div class="grid-3">
+          <div class="well"><strong>Insurance</strong><p>Health & accident cover for you and dependents.</p></div>
+          <div class="well"><strong>Performance Pay</strong><p>Quarterly rewards for top performers.</p></div>
+          <div class="well"><strong>Leave Policy</strong><p>Annual, sick and optional WFH for eligible roles.</p></div>
+        </div>
+      </section>
+
+      <!-- Open Roles -->
+      <section id="roles">
+        <h2>Open Roles</h2>
+
+        <div class="toolbar" role="region" aria-label="Job filters">
+          <input id="search" class="input" type="search" placeholder="Search by title, keyword…" />
+          <select id="dept">
+            <option value="">All Departments</option>
+            <option>Delivery</option>
+            <option>Operations</option>
+            <option>Customer Experience</option>
+            <option>Growth</option>
+            <option>Technology</option>
+          </select>
+          <select id="type">
+            <option value="">Any Type</option>
+            <option>Full-time</option>
+            <option>Part-time</option>
+            <option>Contract</option>
+          </select>
+          <button id="resetFilters" class="btn btn--ghost">Reset</button>
+        </div>
+
+        <div id="roleList" class="grid-3" style="margin-top:10px"></div>
+
+        <div class="well" style="margin-top:12px">
+          <strong>Didn’t find a match?</strong> Send an open application to <a href="mailto:careers@mmart.com?subject=Open Application">careers@mmart.com</a>.
+        </div>
+      </section>
+
+      <!-- Process -->
+      <section id="process">
+        <h2>Hiring Process</h2>
+        <div class="timeline">
+          <div class="step">
+            <div class="dot-ghost"></div>
+            <div><strong>1) Apply</strong><div class="note">Submit the form with your resume and a short note.</div></div>
+          </div>
+          <div class="step">
+            <div class="dot-ghost"></div>
+            <div><strong>2) Recruiter Screen</strong><div class="note">15–20 mins to align on role, location (within 10 km hub), notice period.</div></div>
+          </div>
+          <div class="step">
+            <div class="dot-ghost"></div>
+            <div><strong>3) Panel Rounds</strong><div class="note">Role-specific skills + culture interview.</div></div>
+          </div>
+          <div class="step">
+            <div class="dot-ghost"></div>
+            <div><strong>4) Offer</strong><div class="note">Comp + benefits + start date. We move fast.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQs -->
+      <section id="faqs">
+        <h2>FAQs</h2>
+        <div class="well">
+          <p><strong>Do you hire outside 10 km?</strong><br>Most roles are tied to a hub. For Tech/Growth, we’re flexible on location.</p>
+          <p><strong>Do you provide delivery vehicle?</strong><br>We reimburse per-km and provide safety gear. Company vehicles subject to availability.</p>
+          <p><strong>Can I switch teams later?</strong><br>Internal mobility is encouraged based on openings and performance.</p>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact">
+        <h2>Contact HR</h2>
+        <div class="grid-2">
+          <div class="well">
+            <p><strong>People Ops</strong><br>
+            M Mart Careers<br>
+            <a href="mailto:careers@mmart.com">careers@mmart.com</a><br>
+            +91 123 456 7890</p>
+          </div>
+          <div class="well">
+            <p><strong>Address</strong><br>
+            M Mart HQ, Bengaluru, India<br>
+            (Roles attached to hubs within a 10 km delivery radius)</p>
+          </div>
+        </div>
+        <div class="foot">
+          <span class="note">Tip: Use <span class="kbd">Ctrl/Cmd + F</span> to find roles.</span>
+          <button id="printBtn2" class="btn">🖨 Print / Save</button>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> M Mart. All rights reserved.</p>
+  </footer>
+
+<!-- Modal: Apply -->
+<div id="applyModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="applyTitle">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="applyTitle">Apply for Role</h3>
+      <button class="close-x" id="closeModal" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <form id="applyForm">
+        <input type="hidden" id="applyRole" />
+        <div class="form-row">
+          <input class="input" type="text" id="name" placeholder="Full Name" required>
+          <input class="input" type="email" id="email" placeholder="Email" required>
+        </div>
+        <div class="form-row">
+          <input class="input" type="tel" id="phone" placeholder="Phone (WhatsApp preferred)" required>
+          <input class="input" type="text" id="location" placeholder="Your Location (must be within 10 km hub)" required>
+        </div>
+        <div class="form-row">
+          <select class="input" id="notice">
+            <option value="">Notice Period</option>
+            <option>Immediate</option>
+            <option>15 days</option>
+            <option>30 days</option>
+            <option>60+ days</option>
+          </select>
+          <input class="input" type="file" id="resume" accept=".pdf,.doc,.docx" required>
+        </div>
+        <textarea id="cover" placeholder="Short note: Why M Mart? (3–5 lines)"></textarea>
+        <div class="foot">
+          <span class="note">Your details are used only for hiring. See our Privacy Policy.</span>
+          <button type="button" class="btn btn--ghost" id="saveDraft">Save Draft</button>
+          <button type="submit" class="btn">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---- Helpers ----
+  const $ = (q, c=document)=> c.querySelector(q);
+  const $$ = (q, c=document)=> Array.from(c.querySelectorAll(q));
+  const now = new Date();
+  $('#year').textContent = now.getFullYear();
+  $('#updated').textContent = now.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'2-digit'});
+
+  // Print / Save
+  const doPrint = ()=> window.print();
+  $('#printBtn').addEventListener('click', doPrint);
+  $('#printBtn2').addEventListener('click', doPrint);
+
+  // ---- TOC active highlight on scroll ----
+  const tocLinks = $$('#tocList a');
+  const sections = tocLinks.map(a=> $(a.getAttribute('href')));
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const id = '#'+entry.target.id;
+        tocLinks.forEach(a=> a.classList.toggle('active', a.getAttribute('href')===id));
+      }
+    });
+  }, {rootMargin:'-40% 0px -55% 0px', threshold:0.01});
+  sections.forEach(s=> s && io.observe(s));
+
+  // ---- Roles data ----
+  const ROLES = [
+    { id:'del-exec', title:'Delivery Executive', dept:'Delivery', type:'Full-time', location:'Bengaluru (within 10 km hub)', tags:['2W Rider','Customer-first','Route-savvy'],
+      about:'Deliver orders safely and on time within our 10 km radius. Interact with customers, ensure quality, and follow safety SOPs.',
+      reqs:['Valid 2W license','Android smartphone','Strong punctuality','Local area knowledge'],
+    },
+    { id:'ops-assoc', title:'Operations Associate', dept:'Operations', type:'Full-time', location:'Bengaluru (Hub)',
+      tags:['Inventory','SOP','Quality'], about:'Run day-to-day store ops, inventory counts, and dispatch accuracy.',
+      reqs:['Prior ops/retail experience','Excel/Sheets basics','Shift flexibility'],
+    },
+    { id:'cx-assoc', title:'Customer Experience Associate', dept:'Customer Experience', type:'Part-time', location:'Hybrid (Bengaluru)',
+      tags:['Empathy','Chat/Phone Support'], about:'Resolve customer queries, manage refunds/returns, and keep NPS high.',
+      reqs:['Excellent communication','Weekend availability','CRM familiarity is a plus'],
+    },
+    { id:'growth-int', title:'Growth Marketing Intern', dept:'Growth', type:'Contract', location:'Hybrid/Remote',
+      tags:['Acquisition','Retention','Analytics'], about:'Run experiments on acquisition/retention, coordinate with design/content.',
+      reqs:['Numbers-first mindset','Basic SQL/GA4 a plus','Love for rapid testing'],
+    },
+    { id:'fe-dev', title:'Frontend Engineer', dept:'Technology', type:'Full-time', location:'Remote/Hybrid (Bengaluru preferred)',
+      tags:['React','Performance','UX'], about:'Build fast, elegant user experiences for shoppers and internal tools.',
+      reqs:['2+ yrs React/JS','API integration','Accessible UI patterns'],
+    },
+  ];
+
+  // ---- Render roles ----
+  const roleList = $('#roleList');
+  function roleCard(r){
+    const tagHTML = r.tags.map(t=> `<span class="pill">${t}</span>`).join(' ');
+    const reqHTML = r.reqs.map(x=> `<li>${x}</li>`).join('');
+    const saved = isSaved(r.id) ? ' saved' : '';
+    return `
+      <div class="role${saved}" data-id="${r.id}" data-dept="${r.dept}" data-type="${r.type}">
+        <div>
+          <h3>${r.title}</h3>
+          <div class="meta-row">
+            <span class="pill">${r.dept}</span>
+            <span class="pill">${r.type}</span>
+            <span class="pill">${r.location}</span>
+          </div>
+          <p style="margin:.5rem 0">${r.about}</p>
+          <ul class="note" style="margin:.3rem 0 .6rem">${reqHTML}</ul>
+          <div class="meta-row">${tagHTML}</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn--ghost saveBtn" aria-label="Save job">★ Save</button>
+          <button class="btn applyBtn" aria-label="Apply to ${r.title}">Apply</button>
+        </div>
+      </div>
+    `;
+  }
+  function renderRoles(list=ROLES){
+    roleList.innerHTML = list.map(roleCard).join('');
+    // Attach events
+    $$('.role .applyBtn', roleList).forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const card = e.target.closest('.role');
+        openApply(card.dataset.id);
+      });
+    });
+    $$('.role .saveBtn', roleList).forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const card = e.target.closest('.role');
+        toggleSave(card.dataset.id);
+        card.classList.toggle('saved', isSaved(card.dataset.id));
+      });
+    });
+  }
+  renderRoles();
+
+  // ---- Filters ----
+  const search = $('#search'), deptSel = $('#dept'), typeSel = $('#type');
+  function applyFilters(){
+    const q = search.value.trim().toLowerCase();
+    const d = deptSel.value;
+    const t = typeSel.value;
+    const filtered = ROLES.filter(r=>{
+      const text = (r.title+' '+r.dept+' '+r.type+' '+r.location+' '+r.about+' '+r.tags.join(' ')).toLowerCase();
+      const okQ = !q || text.includes(q);
+      const okD = !d || r.dept===d;
+      const okT = !t || r.type===t;
+      return okQ && okD && okT;
+    });
+    renderRoles(filtered);
+  }
+  [search,deptSel,typeSel].forEach(el=> el.addEventListener('input', applyFilters));
+  $('#resetFilters').addEventListener('click', ()=>{
+    search.value=''; deptSel.value=''; typeSel.value=''; applyFilters();
+  });
+
+  // ---- Save jobs (localStorage) ----
+  const SAVE_KEY='mmart_saved_jobs';
+  function getSaved(){ try{return JSON.parse(localStorage.getItem(SAVE_KEY)||'[]')}catch{return[]} }
+  function isSaved(id){ return getSaved().includes(id) }
+  function toggleSave(id){
+    const s = new Set(getSaved());
+    s.has(id) ? s.delete(id) : s.add(id);
+    localStorage.setItem(SAVE_KEY, JSON.stringify([...s]));
+  }
+
+  // ---- Apply Modal ----
+  const modal = $('#applyModal'), closeModalBtn = $('#closeModal'), applyTitle = $('#applyTitle'), applyRole = $('#applyRole');
+  function openApply(id){
+    const role = ROLES.find(r=> r.id===id);
+    applyTitle.textContent = `Apply — ${role.title}`;
+    applyRole.value = role.title;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+  }
+  closeModalBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+
+  // ---- Apply Form ----
+  const form = $('#applyForm');
+  const DRAFT_KEY='mmart_apply_draft';
+  // restore draft
+  try{
+    const d = JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');
+    if(d){
+      $('#name').value=d.name||''; $('#email').value=d.email||''; $('#phone').value=d.phone||'';
+      $('#location').value=d.location||''; $('#notice').value=d.notice||''; $('#cover').value=d.cover||'';
+    }
+  }catch{}
+  $('#saveDraft').addEventListener('click', ()=>{
+    const draft = {
+      role: $('#applyRole').value,
+      name: $('#name').value, email: $('#email').value, phone: $('#phone').value,
+      location: $('#location').value, notice: $('#notice').value, cover: $('#cover').value
+    };
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    alert('Draft saved locally on this device ✔️');
+  });
+
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    // lightweight validation
+    const role = $('#applyRole').value;
+    const name = $('#name').value.trim();
+    const email = $('#email').value.trim();
+    const phone = $('#phone').value.trim();
+    const loc = $('#location').value.trim();
+    if(!name || !email || !phone || !loc){ alert('Please fill all required fields.'); return; }
+
+    // Compose email (fallback). You can replace with real backend endpoint.
+    const subject = encodeURIComponent(`Application: ${role} — ${name}`);
+    const body = encodeURIComponent(
+`Role: ${role}
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Location: ${loc}
+Notice: ${$('#notice').value}
+Cover:
+${$('#cover').value}
+
+(Attachment: please attach your resume manually if the email client does not include it automatically.)`
+    );
+    window.location.href = `mailto:careers@mmart.com?subject=${subject}&body=${body}`;
+    alert('Opening your email client. If it did not open, email careers@mmart.com with subject "Application" and attach your resume.');
+    closeModal();
+  });
+</script>
+</body>
+</html>

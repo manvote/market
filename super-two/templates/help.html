@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M Mart - Help & Support</title>
+  <!-- 🌟 Favicon Icon for Taskbar/Browser Tab -->
+  <link rel="icon" href="assets/logo.png" type="png" />
+
+  <!-- Optional: Apple Icon and Other Support -->
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+  <style>
+    :root {
+      --blue: #4ac6ff;
+      --green: #3ddc84;
+      --bg: #f0faff;
+      --text-dark: #1b3a4b;
+      --text-light: #607d8b;
+      --white: #fff;
+      --shadow: 0 6px 20px rgba(0,0,0,0.1);
+      --radius: 12px;
+    }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text-dark);
+    }
+    header {
+      background: linear-gradient(90deg, var(--green), var(--blue));
+      padding: 20px;
+      text-align: center;
+      color: white;
+      font-size: 22px;
+      font-weight: bold;
+      box-shadow: var(--shadow);
+    }
+    .hero { text-align: center; padding: 50px 20px 30px; }
+    .hero h1 { font-size: 36px; margin-bottom: 10px; }
+    .hero p { font-size: 18px; color: var(--text-light); }
+
+    /* Search Box */
+    .search-box {
+      max-width: 600px;
+      margin: 20px auto;
+      display: flex;
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .search-box input {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      font-size: 16px;
+      outline: none;
+    }
+    .search-box button {
+      background: var(--blue);
+      color: white;
+      border: none;
+      padding: 0 25px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    .search-box button:hover { background: var(--green); }
+
+    /* Categories */
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .category-card {
+      background: var(--white);
+      padding: 25px;
+      border-radius: var(--radius);
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s;
+    }
+    .category-card h3 { margin: 10px 0; }
+    .category-card p { font-size: 14px; color: var(--text-light); }
+    .category-card:hover { transform: translateY(-6px); }
+
+    /* FAQ */
+    .faq-section { max-width: 900px; margin: 50px auto; padding: 0 20px; }
+    .faq-section h2 { text-align: center; margin-bottom: 20px; }
+    .faq-item { background: var(--white); border-radius: var(--radius); margin-bottom: 12px; box-shadow: var(--shadow); }
+    .faq-question {
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      color: white; padding: 16px 20px;
+      cursor: pointer; border: none; width: 100%;
+      font-size: 16px; font-weight: bold; text-align: left;
+      position: relative;
+    }
+    .faq-question::after { content: "+"; position: absolute; right: 20px; font-size: 20px; transition: transform 0.3s; }
+    .faq-question.active::after { transform: rotate(45deg); }
+    .faq-answer { max-height: 0; overflow: hidden; padding: 0 20px; transition: max-height 0.4s ease, padding 0.4s ease; }
+    .faq-answer p { padding: 12px 0; color: var(--text-light); font-size: 15px; }
+
+    /* Contact */
+    .contact-cta { text-align: center; margin: 50px 20px; padding: 30px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .contact-cta a {
+      display: inline-block; background: var(--green); color: white;
+      padding: 12px 25px; border-radius: 6px; text-decoration: none;
+    }
+    .contact-cta a:hover { background: var(--blue); }
+
+    footer { background: var(--text-dark); color: white; text-align: center; padding: 15px; font-size: 14px; }
+  </style>
+</head>
+<body>
+<header>M Mart Help & Support</header>
+
+<section class="hero">
+  <h1>We’re Here to Help</h1>
+  <p>Find answers or connect with our support team anytime.</p>
+</section>
+
+<div class="search-box">
+  <input id="searchInput" type="text" placeholder="Search help articles, FAQs...">
+  <button onclick="searchHelp()">Search</button>
+</div>
+
+<section class="categories" id="categories">
+  <div class="category-card"><h3>📦 Orders</h3><p>Track, cancel, or manage orders</p></div>
+  <div class="category-card"><h3>💳 Payments</h3><p>Refunds, UPI, cards & wallet help</p></div>
+  <div class="category-card"><h3>🚚 Delivery</h3><p>Delivery times, areas & tracking</p></div>
+  <div class="category-card"><h3>👤 Account</h3><p>Profile, login & security issues</p></div>
+  <div class="category-card"><h3>🛠 Technical</h3><p>Website or app troubleshooting</p></div>
+  <div class="category-card"><h3>❓ General</h3><p>Other queries & support</p></div>
+</section>
+
+<section class="faq-section" id="faqSection">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item"><button class="faq-question">How do I place an order?</button><div class="faq-answer"><p>Browse products, add to cart, and checkout easily.</p></div></div>
+  <div class="faq-item"><button class="faq-question">What payment methods are supported?</button><div class="faq-answer"><p>We support UPI, cards, netbanking, and COD.</p></div></div>
+  <div class="faq-item"><button class="faq-question">How can I track my delivery?</button><div class="faq-answer"><p>Go to “My Orders” and click the order to track.</p></div></div>
+  <div class="faq-item"><button class="faq-question">Can I cancel my order?</button><div class="faq-answer"><p>You can cancel within 10 minutes of placing it.</p></div></div>
+</section>
+
+<div class="contact-cta">
+  <h3>Didn’t find what you’re looking for?</h3>
+  <a href="mailto:support@mmart.com">📩 Contact Support</a>
+</div>
+
+<footer>© 2025 M Mart. All rights reserved.</footer>
+
+<script>
+  // FAQ toggle
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('active');
+      let answer = btn.nextElementSibling;
+      if (answer.style.maxHeight) {
+        answer.style.maxHeight = null;
+      } else {
+        document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
+        answer.style.maxHeight = answer.scrollHeight + "px";
+      }
+    });
+  });
+
+  // Search filter
+  function searchHelp() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+
+    // Filter categories
+    document.querySelectorAll(".category-card").forEach(card => {
+      const text = card.innerText.toLowerCase();
+      card.style.display = text.includes(query) ? "block" : "none";
+    });
+
+    // Filter FAQs
+    document.querySelectorAll(".faq-item").forEach(item => {
+      const text = item.innerText.toLowerCase();
+      item.style.display = text.includes(query) ? "block" : "none";
+    });
+  }
+
+  // Live search as typing
+  document.getElementById("searchInput").addEventListener("input", searchHelp);
+</script>
+</body>
+</html>

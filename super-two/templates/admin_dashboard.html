@@ -1,0 +1,293 @@
+<!-- templates/admin_dashboard.html -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Admin Dashboard — M Mart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- 🌟 Favicon Icon for Taskbar/Browser Tab -->
+  <link rel="icon" href="assets/logo.png" type="png" />
+
+  <!-- Optional: Apple Icon and Other Support -->
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+  <style>
+    .thumb { width:72px; height:72px; object-fit:cover; border-radius:8px; border:1px solid #eee; }
+  </style>
+</head>
+<body class="bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="#">M Mart - Admin</a>
+      <div>
+        <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-danger">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for cat, msg in messages %}
+          <div class="alert alert-{{ 'success' if cat=='success' else ('danger' if cat=='danger' else 'info') }}">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3>Products</h3>
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        <i class="bi bi-plus-circle"></i> Add Product
+      </button>
+    </div>
+
+    <div class="card p-3 mb-4">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Sub Category</th>
+              <th>Price (₹)</th>
+              <th>Stock</th>
+              <th>Unit</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in products %}
+            <tr>
+              <td class="mono">#{{ p.id }}</td>
+              <td>
+                {% if p.image_url %}
+                  <img src="{{ p.image_url }}" class="thumb" alt="{{ p.name }}">
+                {% else %}
+                  <div class="thumb d-flex align-items-center justify-content-center text-muted">No Image</div>
+                {% endif %}
+              </td>
+              <td>{{ p.name }}</td>
+              <td>{{ p.category or '-' }}</td>
+              <td>{{ p.subcategory }}</td> 
+              <td>{{ "%.2f"|format(p.price) }}</td>
+              <td>{{ p.stock }}</td>
+              <td>{{ p.unit }}</td> 
+              <td>
+                <!-- Edit (modal per product) -->
+                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editProductModal{{ p.id }}">
+                  <i class="bi bi-pencil"></i> Edit
+                </button>
+
+                <!-- Delete (POST for safety) -->
+                <form method="POST" action="{{ url_for('delete_product', pid=p.id) }}" style="display:inline-block" onsubmit="return confirm('Delete product?');">
+                  <button class="btn btn-sm btn-outline-danger"> <i class="bi bi-trash"></i> Delete</button>
+                </form>
+              </td>
+            </tr>
+
+            <!-- Edit product modal -->
+            <div class="modal fade" id="editProductModal{{ p.id }}" tabindex="-1">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <form method="POST" action="{{ url_for('edit_product', pid=p.id) }}" enctype="multipart/form-data">
+                    <div class="modal-header"><h5>Edit Product</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+                    <div class="modal-body">
+                      <div class="row g-2">
+  <div class="col-md-6">
+    <label>Name</label>
+    <input class="form-control" name="name" value="{{ p.name }}" required>
+  </div>
+  <div class="col-md-6">
+    <label>Category</label>
+    <div class="input-group">
+    <select class="form-select category-select" name="category">
+      <option value="vegetables" {% if p.category=='vegetables' %}selected{% endif %}>Vegetables & Fruits</option>
+      <option value="dairy" {% if p.category=='dairy' %}selected{% endif %}>Dairy</option>
+      <option value="snacks" {% if p.category=='snacks' %}selected{% endif %}>Snacks</option>
+      <option value="toys" {% if p.category=='toys' %}selected{% endif %}>Toys</option>
+      <option value="personal" {% if p.category=='personal' %}selected{% endif %}>Personal Care</option>
+      <option value="household" {% if p.category=='household' %}selected{% endif %}>Household Essentials</option>
+      <option value="masaladry" {% if p.category=='masaladry' %}selected{% endif %}>Masala & Dryfruits</option>
+      <option value="frozen" {% if p.category=='frozen' %}selected{% endif %}>Frozen foods</option>
+      <option value="fragrance" {% if p.category=='fragrance' %}selected{% endif %}>Fragrance</option>
+      <option value="stationary" {% if p.category=='stationary' %}selected{% endif %}>Stationary  </option>
+    </select>
+    </div>
+  </div>
+
+  <!-- 🆕 Subcategory field -->
+  <div class="col-md-6">
+  <label>Subcategory</label>
+  <select class="form-control subcategory-select" name="subcategory">
+    <option value="">-- Select Subcategory --</option>
+    {% if p.subcategory %}
+      <option value="{{ p.subcategory|lower|replace(' ', '_') }}" selected>{{ p.subcategory }}</option>
+    {% endif %}
+  </select>
+</div>
+
+  <div class="col-md-4">
+    <label>Price</label>
+    <input class="form-control" type="number" step="0.01" name="price" value="{{ p.price }}" required>
+  </div>
+  <div class="col-md-4">
+  <label>Stock</label>
+  <div class="input-group">
+    <input class="form-control" name="stock" type="number" value="{{ p.stock }}" required>
+    <select class="form-select" name="unit">
+      <option value="pcs" {% if p.unit=='pcs' %}selected{% endif %}>pcs</option>
+      <option value="kg" {% if p.unit=='kg' %}selected{% endif %}>kg</option>
+      <option value="g" {% if p.unit=='g' %}selected{% endif %}>g</option>
+      <option value="L" {% if p.unit=='L' %}selected{% endif %}>L</option>
+      <option value="ml" {% if p.unit=='ml' %}selected{% endif %}>ml</option>
+    </select>
+  </div>
+</div>
+
+  <div class="col-md-4">
+    <label>Image URL (optional)</label>
+    <input class="form-control" name="image_url" value="{{ p.image_url }}">
+  </div>
+  <div class="col-12">
+    <label>Or upload image (will replace)</label>
+    <input type="file" name="image_file" class="form-control">
+  </div>
+</div>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button class="btn btn-primary" type="submit">Save changes</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add product modal -->
+  <!-- Add product modal -->
+<div class="modal fade" id="addProductModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="POST" action="{{ url_for('add_product') }}" enctype="multipart/form-data">
+        <div class="modal-header"><h5>Add Product</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body">
+          <div class="row g-2">
+            <div class="col-md-6"><label>Name</label><input class="form-control" name="name" required></div>
+            <!-- In Add Product Modal -->
+<div class="col-md-6">
+  <label>Category</label>
+  <select class="form-select category-select" name="category">
+    <option value="">-- Select Category --</option>
+    <option value="vegetables">Vegetables & Fruits</option>
+    <option value="dairy">Dairy</option>
+    <option value="snacks">Snacks</option>
+    <option value="toys">Toys</option>
+    <option value="personal">Personal Care</option>
+    <option value="household">Household Essentials</option>
+    <option value="masaladry">Masala & Dryfruits</option>
+    <option value="frozen">Frozen foods</option>
+    <option value="fragrance">Fragrance</option>
+    <option value="stationary">Stationary</option>
+  </select>
+</div>
+
+<div class="col-md-6">
+  <label>Sub Category</label>
+  <select class="form-control subcategory-select" name="subcategory">
+    <option value="">-- Select Subcategory --</option>
+  </select>
+</div>
+
+            <div class="col-md-4"><label>Price</label><input class="form-control" name="price" type="number" step="0.01" required></div>
+            <div class="col-md-4">
+  <label>Stock</label>
+  <div class="input-group">
+    <input class="form-control" name="stock" type="number" required>
+    <select class="form-select" name="unit">
+      <option value="pcs">pcs</option>
+      <option value="kg">kg</option>
+      <option value="g">g</option>
+      <option value="L">L</option>
+      <option value="ml">ml</option>
+    </select>
+  </div>
+</div>
+
+            <div class="col-md-4"><label>Image URL</label><input class="form-control" name="image_url"></div>
+
+            <div class="col-12">
+              <label>Or upload image</label>
+              <input type="file" name="image_file" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-success" type="submit">Add product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+const subcategories = {
+  vegetables: ["Leafy Greens", "Root Vegetables", "Fruit Vegetables", "Berries", "Tropical", "Citrus", "Stone Fruits"],
+  dairy: ["Milk & Curd", "Cheese", "Butter & Ghee", "Yogurt", "Ice Cream", "Paneer", "Eggs"],
+  snacks: ["Chips", "Biscuits", "Chocolates", "Fresh Juices", "Soft Drinks"],
+  toys: ["Games and puzzles", "Educational Toys", "Building blocks", "Collectibles", "Vehicles", "Art & Craft"],
+  personal: ["Bath & Body", "Oral Care", "Skin & Hair Care", "Mens Grooming", "Womens Hygiene"],
+  household: ["Laundry Care", "Dishwashing", "Surface & Floor Cleaners", "Insect & Pest Control", "Cleaning Tools & Accessories"],
+  masaladry: ["Masala & Spices", "Dry Fruits & Nuts"],
+  frozen: ["Frozen Parathas", "Frozen Meals", "Frozen desserts & Icecreams"],
+  fragrance: ["Perfumes", "Roll-Ons", "Body Sprays"],
+  stationary: ["Writing Instruments", "Notebooks & Paper", "Art & Drawings", "Office Supplies"]
+};
+
+function populateSubcategories(categorySelect, subcatSelect, selectedSub = null) {
+  subcatSelect.innerHTML = '<option value="">-- Select Subcategory --</option>';
+  if (subcategories[categorySelect.value]) {
+    subcategories[categorySelect.value].forEach(sub => {
+      let opt = document.createElement("option");
+      opt.value = sub.toLowerCase().replace(/\s+/g, "_");
+      opt.textContent = sub;
+      if (selectedSub && selectedSub.toLowerCase().replace(/\s+/g, "_") === opt.value) {
+        opt.selected = true;
+      }
+      subcatSelect.appendChild(opt);
+    });
+  }
+}
+
+// Attach event listener for every category-select
+document.querySelectorAll(".category-select").forEach((catSelect, index) => {
+  let subcatSelect = catSelect.closest(".row").querySelector(".subcategory-select");
+
+  // On change
+  catSelect.addEventListener("change", function() {
+    populateSubcategories(catSelect, subcatSelect);
+  });
+
+  // On page load (for edit modals)
+  let currentSub = subcatSelect.getAttribute("data-current");
+  if (catSelect.value) {
+    populateSubcategories(catSelect, subcatSelect, currentSub);
+  }
+});
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

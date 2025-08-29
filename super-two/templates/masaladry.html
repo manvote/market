@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Masala and Dryfruits Products — M mart</title>
+  <link rel="stylesheet" href="static/index.css"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- 🌟 Favicon Icon for Taskbar/Browser Tab -->
+  <link rel="icon" href="assets/logo.png" type="png" />
+
+  <!-- Optional: Apple Icon and Other Support -->
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+</head>
+<body>
+  <!-- Sticky bar -->
+  <header class="nav nav--sub">
+    <div class="nav__left">
+      <a class="brand" href="/"><span class="brand__dot"></span>M mart</a>
+      <span class="chip chip--accent">Within 10 km</span>
+    </div>
+    <div class="nav__center">
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M9.5 3A6.5 6.5 0 1 1 3 9.5A6.5 6.5 0 0 1 9.5 3"/></svg>
+        <input id="searchProducts" type="search" placeholder="Search products…"/>
+      </div>
+    </div>
+    <div class="nav__right">
+      <select id="sortSelect" class="select">
+        <option value="popular">Sort: Popular</option>
+        <option value="price-asc">Price ↑</option>
+        <option value="price-desc">Price ↓</option>
+        <option value="rating">Rating</option>
+      </select>
+      <button id="cartBtn" class="cart-btn"><span>Cart</span><b id="cartCount" class="badge">0</b></button>
+    </div>
+  </header>
+
+  <!-- LEFT Cart Panel (same as home) -->
+  <div id="panelBackdrop" class="backdrop" hidden></div>
+  <aside id="cartPanel" class="panel" role="dialog" aria-modal="true" aria-hidden="true">
+    <header class="panel__head">
+      <b>Your Cart</b>
+      <button class="icon-btn" data-close-panel>&times;</button>
+    </header>
+    <div id="panelItems" class="panel__items"></div>
+    <footer class="panel__foot">
+      <div class="cart__row"><span>Subtotal</span><strong id="panelSubtotal">₹0</strong></div>
+      <div class="cart__row"><span>Delivery (≤10 km)</span><strong id="panelDelivery">₹0</strong></div>
+      <div class="cart__row cart__row--total"><span>Total</span><strong id="panelTotal">₹0</strong></div>
+      <a id="checkoutBtn" class="btn btn--primary btn--block" href="/payment">Continue to checkout</a>
+      <p class="muted">By continuing you agree to T&Cs.</p>
+    </footer>
+  </aside>
+
+  <!-- Filters + Grid -->
+  <main class="layout">
+    <aside class="filters">
+      <h3>Filters</h3>
+      <div class="filter-block">
+        <h4>Category</h4>
+        <div id="subcatFilters" class="chip-group">
+          <button class="chip chip--select" data-cat="all">All</button>
+          <button class="chip" data-subcat="masala_&_spices">Masala & Spices</button>
+          <button class="chip" data-subcat="dryfruits_&_nuts">DryFruits & Nuts</button>
+          
+          
+        </div>
+      </div>
+      <div class="filter-block">
+        <h4>Price</h4>
+        <input id="priceRange" type="range" min="20" max="400" value="400" />
+        <div class="muted">Max: <b id="priceLabel">₹400</b></div>
+      </div>
+      <div class="filter-block">
+        <h4>Delivery</h4>
+        <label class="switch">
+          <input id="freeDelivery" type="checkbox" checked>
+          <span>Free above ₹499</span>
+        </label>
+      </div>
+    </aside>
+
+    <section class="grid-wrap">
+      <div class="grid-head">
+        <h2 id="gridTitle">Explore New Masala and dry products Here</h2>
+        <span class="muted" id="gridCount"></span>
+      </div>
+      <div id="grid" class="grid-api-masaladry">
+        <section class="api-masaladry">
+          <h2>Masala and Dry products</h2>
+          <div id="masaladry-container" class="products-grid6"></div>
+        </section>
+      </div>
+      <div class="grid-foot8">
+        <button id="loadMore" class="btn8">Load more</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer footer--mini"><small>© <span id="year"></span> Zippy</small></footer>
+  <script src="static/masaladry.js"></script>
+  <script src="static/index.js"></script>
+  
+</body>
+</html>

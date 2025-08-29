@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Dashboard</title>
+  <!-- 🌟 Favicon Icon for Taskbar/Browser Tab -->
+  <link rel="icon" href="assets/logo.png" type="png" />
+
+  <!-- Optional: Apple Icon and Other Support -->
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+/* ===== Global ===== */
+body {
+  font-family: "Inter", "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f5f7fa, #e4ebf7);
+  color: #1d1f27;
+  min-height: 100vh;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin-top: 20px;
+}
+
+/* ===== Headings ===== */
+h2, h4 {
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #1d1f27;
+}
+h4 i, h2 i {
+  color: #4e73df;
+}
+
+/* ===== Back Home Button ===== */
+.back-home-btn {
+  padding: 10px 20px;
+  border-radius: 40px;
+  background: linear-gradient(90deg, #4e73df, #36b9cc);
+  border: none;
+  color: #fff;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+.back-home-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* ===== Cards ===== */
+.card {
+  border: none;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transition: all 0.25s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  color: #4e73df;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ===== Profile & Address ===== */
+.list-group-item {
+  border: none;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  padding: 14px 18px;
+  background: #f8f9fc;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  transition: all 0.2s ease;
+}
+.list-group-item:hover {
+  background: #eef2fa;
+  transform: translateX(4px);
+}
+
+/* ===== Buttons ===== */
+.btn {
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn-outline-primary {
+  border: 1px solid #4e73df;
+  color: #4e73df;
+}
+.btn-outline-primary:hover {
+  background: #4e73df;
+  color: #fff;
+}
+.btn-outline-danger {
+  border: 1px solid #e74a3b;
+  color: #e74a3b;
+}
+.btn-outline-danger:hover {
+  background: #e74a3b;
+  color: #fff;
+}
+.btn-success {
+  background: linear-gradient(90deg, #1cc88a, #17a673);
+  border: none;
+  color: #fff;
+}
+.btn-success:hover {
+  opacity: 0.9;
+}
+
+/* ===== Table ===== */
+.table {
+  border-radius: 14px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.table thead {
+  background: linear-gradient(90deg, #4e73df, #36b9cc);
+  color: #fff;
+  font-weight: 600;
+}
+.table tbody tr {
+  transition: all 0.2s ease;
+}
+.table tbody tr:hover {
+  background: rgba(78,115,223,0.05);
+}
+
+/* ===== Badges ===== */
+.badge {
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.badge.bg-warning { background: #f6c23e; color: #fff; }
+.badge.bg-success { background: #1cc88a; color: #fff; }
+.badge.bg-info { background: #36b9cc; color: #fff; }
+
+/* ===== Modals ===== */
+.modal-content {
+  border-radius: 16px;
+  border: none;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+.modal-header {
+  border-bottom: none;
+  background: #4e73df;
+  color: #fff;
+  border-radius: 16px 16px 0 0;
+}
+.modal-title {
+  font-weight: 600;
+}
+.modal-footer {
+  border-top: none;
+}
+
+/* ===== Logout Button ===== */
+.btn-danger {
+  padding: 12px 22px;
+  font-weight: 600;
+  border-radius: 40px;
+  background: linear-gradient(90deg, #e74a3b, #e74a77);
+  border: none;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(231,74,59,0.3);
+}
+.btn-danger:hover {
+  opacity: 0.9;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+
+    <!-- Welcome -->
+    <div class="mb-4 text-center">
+      <h2>{{ user.full_name }}</h2>
+       <a href="{{ url_for('home') }}" class="btn btn--ghost back-home-btn">
+    ⬅ Back to Home
+  </a>
+      <p class="text-muted">Manage your profile, addresses & orders</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Profile Card -->
+      <div class="col-md-4">
+        <div class="card p-3">
+          <h5 class="card-title"><i class="bi bi-person-circle"></i> Profile</h5>
+          <p><strong>Name:</strong> {{ user.full_name }}</p>
+          <p><strong>Email:</strong> {{ user.email }}</p>
+          <p><strong>Phone:</strong> {{ user.phone or 'Not added' }}</p>
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+            <i class="bi bi-pencil"></i> Edit Profile
+          </button>
+        </div>
+      </div>
+
+      <!-- Address Card -->
+      <div class="col-md-8">
+        <div class="card p-3">
+          <h5 class="card-title"><i class="bi bi-geo-alt"></i> Saved Addresses</h5>
+          {% if user.addresses %}
+            <ul class="list-group">
+              {% for addr in user.addresses %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span>{{ addr.street }}, {{ addr.city }} - {{ addr.pincode }}</span>
+                  <div>
+                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editAddressModal{{ addr.id }}">
+                      <i class="bi bi-pencil"></i> Edit
+                    </button>
+                    <a href="{{ url_for('delete_address', id=addr.id) }}" class="btn btn-sm btn-outline-danger">
+                      <i class="bi bi-trash"></i>
+                    </a>
+                  </div>
+                </li>
+
+                <!-- Edit Address Modal -->
+                <div class="modal fade" id="editAddressModal{{ addr.id }}" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <form method="POST" action="{{ url_for('update_address', id=addr.id) }}">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Edit Address</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                          <input type="text" name="street" class="form-control mb-2" value="{{ addr.street }}" required>
+                          <input type="text" name="city" class="form-control mb-2" value="{{ addr.city }}" required>
+                          <input type="text" name="pincode" class="form-control" value="{{ addr.pincode }}" required>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-muted">No addresses added yet.</p>
+          {% endif %}
+          <button class="btn btn-sm btn-success mt-2" data-bs-toggle="modal" data-bs-target="#addAddressModal">
+            <i class="bi bi-plus-circle"></i> Add Address
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Section -->
+    <h4 class="mt-5"><i class="bi bi-basket"></i> My Orders</h4>
+    <div class="card p-3">
+      {% if user.orders %}
+        <table class="table table-striped">
+          <thead>
+            <tr><th>#</th><th>Date</th><th>Status</th><th>Total</th></tr>
+          </thead>
+          <tbody>
+            {% for order in user.orders %}
+  <tr>
+    <td>{{ order.id }}</td>
+    <td>{{ order.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+    <td>
+      <span class="badge {% if order.status == 'Delivered' %}bg-success{% elif order.status == 'Pending' %}bg-warning{% else %}bg-info{% endif %}">
+        {{ order.status }}
+      </span>
+    </td>
+    <td>₹{{ "%.2f"|format(order.total) }}</td>
+  </tr>
+{% endfor %}
+
+          </tbody>
+        </table>
+      {% else %}
+        <p class="text-muted">No orders yet.</p>
+      {% endif %}
+    </div>
+
+    <!-- Logout -->
+    <div class="text-center mt-4">
+      <a href="{{ url_for('logout') }}" class="btn btn-danger"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div class="modal fade" id="editProfileModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="POST" action="{{ url_for('update_profile') }}">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Profile</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="text" name="full_name" class="form-control mb-2" value="{{ user.full_name }}" required>
+            <input type="email" name="email" class="form-control mb-2" value="{{ user.email }}" required>
+            <input type="text" name="phone" class="form-control" value="{{ user.phone }}">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Address Modal -->
+  <div class="modal fade" id="addAddressModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="POST" action="{{ url_for('add_address') }}">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Address</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="text" name="street" class="form-control mb-2" placeholder="Street" required>
+            <input type="text" name="city" class="form-control mb-2" placeholder="City" required>
+            <input type="text" name="pincode" class="form-control" placeholder="Pincode" required>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

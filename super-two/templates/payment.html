@@ -1,0 +1,196 @@
+<!-- payment.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - M Mart</title>
+  <!-- 🌟 Favicon Icon for Taskbar/Browser Tab -->
+  <link rel="icon" href="assets/logo.png" type="png" />
+
+  <!-- Optional: Apple Icon and Other Support -->
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+  <style>
+    /* payment.css */
+
+/* General page styling */
+body {
+  font-family: 'Inter', sans-serif;
+  background: #e6f6dc;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+/* Headings */
+h2, h3 {
+  text-align: center;
+  color: #34cd12;
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeInUp 0.8s forwards;
+}
+
+h2 {
+  animation-delay: 0.1s;
+}
+
+h3 {
+  animation-delay: 0.2s;
+}
+
+/* Sections */
+section {
+  background: #fff;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* Table styling */
+#summaryTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+  animation-delay: 0.4s;
+}
+
+#summaryTable th, #summaryTable td {
+  border-bottom: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+  transition: background 0.3s ease;
+}
+
+#summaryTable th {
+  background: #e2f5d5;
+  color: #3a9001;
+}
+
+#summaryTable tr:hover {
+  background: #ceffbf;
+}
+
+/* Summary totals */
+#orderSummary p {
+  font-size: 1.1rem;
+  margin: 5px 0;
+  transition: color 0.3s ease;
+}
+
+#orderSummary p strong {
+  color: #5ec510;
+}
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin: 10px 0 5px;
+  font-weight: 500;
+  color: #316513;
+}
+
+input, textarea {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  border-color: #1f9714;
+  box-shadow: 0 0 8px rgba(41, 142, 18, 0.801);
+  outline: none;
+}
+
+/* Button styling */
+button {
+  margin-top: 15px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #26780a, #62c412);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(32, 255, 11, 0.689);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+  </style>
+</head>
+<body>
+  <h2>Checkout</h2>
+
+  <!-- Order Summary -->
+  <section id="orderSummary">
+    <h3>Your Order</h3>
+    <table id="summaryTable">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <p><strong>Subtotal:</strong> <span id="summarySubtotal">₹0</span></p>
+    <p><strong>Delivery:</strong> <span id="summaryDelivery">₹0</span></p>
+    <p><strong>Grand Total:</strong> <span id="summaryTotal">₹0</span></p>
+  </section>
+
+  <!-- Delivery Form -->
+  <section>
+    <h3>Delivery Details</h3>
+    <form id="checkoutForm">
+      <label>Name</label>
+      <input type="text" name="name" required>
+
+      <label>Phone</label>
+      <input type="tel" name="phone" required>
+
+      <label>Address</label>
+      <textarea name="address" required></textarea>
+
+      <button type="submit">Confirm Order</button>
+    </form>
+  </section>
+
+  
+
+  <script src="/static/checkout.js"></script>
+</body>
+</html>
