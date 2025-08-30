@@ -216,8 +216,10 @@ def signup():
 def login():
     try:
         data = request.get_json() or request.form
+        print("📩 Incoming:", data)
 
-          # Debug log
+        if not data:
+            return jsonify({"error": "No data received"}), 400
 
         email = data.get("email")
         password = data.get("password")
@@ -226,13 +228,16 @@ def login():
         if not user:
             return jsonify({"error": "User not found"}), 404
 
+        # ✅ Compare against `user.password` (since your model has password column)
         if not bcrypt.check_password_hash(user.password, password):
             return jsonify({"error": "Invalid password"}), 401
 
         return jsonify({"message": "Login successful", "user_id": user.id})
+
     except Exception as e:
-        print("❌ Login Error:", e)   # Debugging line
+        print("❌ Login Error:", e)
         return jsonify({"error": "Server error"}), 500
+
 
 @app.route('/logout')
 def logout():
@@ -713,6 +718,7 @@ def api_order_verify_delivery():
 # =====================================================
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
