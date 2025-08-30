@@ -39,7 +39,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Init extensions
-from .models import db, bcrypt, Admin, Product, Address, Order, OrderOTP, OTP
+from .models import db, bcrypt, Admin, Product, Address, Order, OrderOTP, OTP, User
+
 db.init_app(app)
 bcrypt.init_app(app)
 
@@ -68,26 +69,26 @@ else:
 # =====================================================
 # USER MODEL
 # =====================================================
-class User(db.Model, UserMixin):
-    __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
-    full_name = db.Column(db.String(100))
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    phone = db.Column(db.String(20))
-    password_hash = db.Column("password", db.String(200))
+# class User(db.Model, UserMixin):
+#     __tablename__ = 'user'
+#     id = db.Column(db.Integer, primary_key=True)
+#     full_name = db.Column(db.String(100))
+#     email = db.Column(db.String(120), unique=True, nullable=False)
+#     phone = db.Column(db.String(20))
+#     password_hash = db.Column("password", db.String(200))
 
-    addresses = db.relationship("Address", backref="user", lazy=True, cascade="all, delete-orphan")
-    orders = db.relationship("Order", backref="user", lazy=True, cascade="all, delete-orphan")
+#     addresses = db.relationship("Address", backref="user", lazy=True, cascade="all, delete-orphan")
+#     orders = db.relationship("Order", backref="user", lazy=True, cascade="all, delete-orphan")
 
-    def set_password(self, password):
-        self.password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
+#     def set_password(self, password):
+#         self.password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
 
-    def check_password(self, password):
-        return bcrypt.check_password_hash(self.password_hash, password)
+#     def check_password(self, password):
+#         return bcrypt.check_password_hash(self.password_hash, password)
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return User.query.get(int(user_id))
 
 # =====================================================
 # HELPERS
@@ -731,6 +732,7 @@ def api_order_verify_delivery():
 # =====================================================
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
