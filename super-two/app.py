@@ -67,9 +67,8 @@ else:
     app.logger.warning("⚠️ Twilio credentials not set. WhatsApp OTP will not work.")
 
 
-
- @login_manager.user_loader
- def load_user(user_id):
+@login_manager.user_loader
+def load_user(user_id):
      return User.query.get(int(user_id))
 
 # =====================================================
@@ -714,6 +713,7 @@ def api_order_verify_delivery():
 # =====================================================
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
