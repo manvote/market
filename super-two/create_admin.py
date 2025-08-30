@@ -1,6 +1,6 @@
 # create_admin.py
 from app import app
-from models import db, Admin
+from .models import db, Admin
 from werkzeug.security import generate_password_hash
 
 email = input("Admin email: ").strip().lower()
@@ -15,3 +15,4 @@ else:
         db.session.add(admin)
         db.session.commit()
         print(f"✅ Admin created: {email}")
+
