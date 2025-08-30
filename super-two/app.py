@@ -230,19 +230,26 @@ def signup():
     return redirect(url_for('home'))
 
 # 🔓 Login
-@app.route('/login', methods=['POST'])
+@app.route("/login", methods=["POST"])
 def login():
-    email = request.form['email']
-    password = request.form['password']
+    try:
+        data = request.get_json()
+        print("📩 Incoming data:", data)   # Debug log
 
-    user = User.query.filter_by(email=email).first()
-    if user and user.check_password(password):
-        login_user(user)
-        flash("Welcome back!", "success")
-        return redirect(url_for('dashboard'))
+        email = data.get("email")
+        password = data.get("password")
 
-    flash("Invalid credentials!", "danger")
-    return redirect(url_for('home'))
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        if not bcrypt.check_password_hash(user.password, password):
+            return jsonify({"error": "Invalid password"}), 401
+
+        return jsonify({"message": "Login successful", "user_id": user.id})
+    except Exception as e:
+        print("❌ Login Error:", e)   # Debugging line
+        return jsonify({"error": "Server error"}), 500
 
 @app.route('/logout')
 def logout():
@@ -723,6 +730,7 @@ def api_order_verify_delivery():
 # =====================================================
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
