@@ -66,29 +66,11 @@ if TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN:
 else:
     app.logger.warning("⚠️ Twilio credentials not set. WhatsApp OTP will not work.")
 
-# =====================================================
-# USER MODEL
-# =====================================================
-# class User(db.Model, UserMixin):
-#     __tablename__ = 'user'
-#     id = db.Column(db.Integer, primary_key=True)
-#     full_name = db.Column(db.String(100))
-#     email = db.Column(db.String(120), unique=True, nullable=False)
-#     phone = db.Column(db.String(20))
-#     password_hash = db.Column("password", db.String(200))
 
-#     addresses = db.relationship("Address", backref="user", lazy=True, cascade="all, delete-orphan")
-#     orders = db.relationship("Order", backref="user", lazy=True, cascade="all, delete-orphan")
 
-#     def set_password(self, password):
-#         self.password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
-
-#     def check_password(self, password):
-#         return bcrypt.check_password_hash(self.password_hash, password)
-
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.query.get(int(user_id))
+ @login_manager.user_loader
+ def load_user(user_id):
+     return User.query.get(int(user_id))
 
 # =====================================================
 # HELPERS
