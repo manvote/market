@@ -233,8 +233,9 @@ def signup():
 @app.route("/login", methods=["POST"])
 def login():
     try:
-        data = request.get_json()
-        print("📩 Incoming data:", data)   # Debug log
+        data = request.get_json() or request.form
+
+          # Debug log
 
         email = data.get("email")
         password = data.get("password")
@@ -730,6 +731,7 @@ def api_order_verify_delivery():
 # =====================================================
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
